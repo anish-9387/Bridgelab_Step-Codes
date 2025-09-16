@@ -6,35 +6,29 @@ public class SmartDevice{
     private String[] connectedDevices;
     private int connectionCount;
 
-    // Constructor with parameter names matching field names
     public SmartDevice(String deviceName, String location, boolean isOnline, double powerConsumption){
-        // Use this keyword to distinguish between parameters and fields
         this.deviceName=deviceName;
         this.location=location;
         this.isOnline=isOnline;
         this.powerConsumption=powerConsumption;
 
-        // Initialize connectedDevices array (size 5)
         this.connectedDevices=new String[5];
-        // Set connectionCount to 0
         this.connectionCount=0;
     }
 
-    // Method using this for parameter disambiguation
     public void updateLocation(String location){
-        this.location=location; // disambiguation
+        this.location=location;
         System.out.println(this.deviceName+" moved to "+this.location);
     }
 
     public void updatePowerConsumption(double powerConsumption){
-        this.powerConsumption=powerConsumption; // disambiguation
+        this.powerConsumption=powerConsumption;
         System.out.println("Power consumption updated for "+this.deviceName);
     }
 
-    // Method returning this for chaining
     public SmartDevice setOnline(boolean isOnline){
         this.isOnline=isOnline;
-        return this; // enable chaining
+        return this;
     }
 
     public SmartDevice connectToDevice(String deviceName){
@@ -46,14 +40,14 @@ public class SmartDevice{
         else{
             System.out.println("Connection limit reached for "+this.deviceName);
         }
-        return this; // enable chaining
+        return this;
     }
 
     public SmartDevice rename(String deviceName){
         String oldName=this.deviceName;
         this.deviceName=deviceName;
         System.out.println("Device renamed from "+oldName+" to "+this.deviceName);
-        return this; // enable chaining
+        return this;
     }
 
     public void displayDeviceInfo(){
@@ -67,32 +61,24 @@ public class SmartDevice{
         }
     }
 
-    // Method that calls other methods using this
     public void performInitialSetup(){
-        this.setOnline(true); // calling other method using this
+        this.setOnline(true);
         System.out.println(this.deviceName+" initial setup completed");
     }
 
     public static void main(String[] args){
         System.out.println("====== SMART HOME DEVICE NETWORK ======");
 
-        // Create devices with parameter names matching field names
         SmartDevice device1=new SmartDevice("Smart Light","Living Room",false,15.5);
         SmartDevice device2=new SmartDevice("Thermostat","Bedroom",true,10.0);
 
-        // Test method chaining using returned this
         device1.setOnline(true).connectToDevice("Alexa").rename("Living Room Light").connectToDevice("Google Home");
 
-        // Demonstrate this keyword in various contexts
         device2.updateLocation("Hallway");
         device2.updatePowerConsumption(12.0);
         device2.performInitialSetup();
 
-        // Display info for both devices
         device1.displayDeviceInfo();
         device2.displayDeviceInfo();
-
-        // Example of method chaining (already shown above)
-        // device.setOnline(true).connectToDevice("Alexa").rename("Kitchen Hub");
     }
 }
