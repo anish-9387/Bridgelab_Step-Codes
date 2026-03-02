@@ -1,50 +1,52 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.LinkedList;
 
 /**
  * =============================================================
- * MAIN CLASS - PalindromeCheckerApp_Usecase7
+ * MAIN CLASS - PalindromeCheckerApp_Usecase8
  * =============================================================
  *
- * Use Case 7: Deque Based Optimized Palindrome Checker
+ * Use Case 8: Linked List Based Palindrome Checker
  *
  * Description:
- * This class validates a palindrome using a Deque
- * (Double Ended Queue).
+ * This class validates whether a string is a palindrome
+ * using a LinkedList.
  *
- * Characters are inserted into the deque and then
- * compared by removing elements from both ends:
- *
+ * Characters are added to the list and then compared
+ * by removing elements from both ends:
  * - removeFirst()
  * - removeLast()
  *
- * This avoids reversing the string and provides an
- * efficient front-to-back comparison approach.
+ * This enables symmetric comparison similar to a Deque.
  *
  * @author Anish
- * @version 7.0
+ * @version 8.0
  */
 
-public class UseCase7PalindromeCheckerApp{
+public class UseCase8PalindromeCheckerApp{
     public static void main(String[] args){
-        String input="refer";
+        String input="level";
 
-        Deque<Character> deque=new ArrayDeque<>();
+        System.out.println("Input : "+input);
+
+        LinkedList<Character> list=new LinkedList<>();
 
         for(char c : input.toCharArray()){
-            deque.add(c);
+            list.add(c);
         }
 
         boolean isPalindrome=true;
 
-        while(deque.size()>1){
-            if(!deque.removeFirst().equals(deque.removeLast())){
+        while(list.size()>1){
+
+            char first=list.removeFirst();
+            char last=list.removeLast();
+
+            if(first!=last){
                 isPalindrome=false;
                 break;
             }
         }
 
-        System.out.println("Input : "+input);
         System.out.println("Is Palindrome? : "+isPalindrome);
     }
 }
