@@ -1,49 +1,44 @@
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * =============================================================
- * MAIN CLASS - PalindromeCheckerApp_Usecase6
+ * MAIN CLASS - PalindromeCheckerApp_Usecase7
  * =============================================================
  *
- * Use Case 6: Queue + Stack Fairness Check
+ * Use Case 7: Deque Based Optimized Palindrome Checker
  *
  * Description:
- * This class demonstrates palindrome validation using
- * two different data structures:
+ * This class validates a palindrome using a Deque
+ * (Double Ended Queue).
  *
- * - Queue (FIFO - First In First Out)
- * - Stack (LIFO - Last In First Out)
+ * Characters are inserted into the deque and then
+ * compared by removing elements from both ends:
  *
- * Characters are inserted into both structures and then
- * compared by removing from the front of the queue and
- * the top of the stack.
+ * - removeFirst()
+ * - removeLast()
  *
- * If all characters match, the input string is confirmed
- * as a palindrome.
+ * This avoids reversing the string and provides an
+ * efficient front-to-back comparison approach.
  *
  * @author Anish
- * @version 6.0
+ * @version 7.0
  */
 
-public class UseCase6PalindromeCheckerApp{
+public class UseCase7PalindromeCheckerApp{
     public static void main(String[] args){
-        String input="civic";
+        String input="refer";
 
-        Queue<Character> queue=new LinkedList<>();
-
-        Stack<Character> stack = new Stack<>();
+        Deque<Character> deque=new ArrayDeque<>();
 
         for(char c : input.toCharArray()){
-            queue.add(c);
-            stack.push(c);
+            deque.add(c);
         }
 
         boolean isPalindrome=true;
 
-        while(!queue.isEmpty()){
-            if(!queue.remove().equals(stack.pop())){
+        while(deque.size()>1){
+            if(!deque.removeFirst().equals(deque.removeLast())){
                 isPalindrome=false;
                 break;
             }
