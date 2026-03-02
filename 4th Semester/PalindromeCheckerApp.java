@@ -1,43 +1,53 @@
 /**
  * =============================================================
- * MAIN CLASS - PalindromeCheckerApp_Usecase10
+ * MAIN CLASS - PalindromeCheckerApp_Usecase11
  * =============================================================
  *
- * Use Case 10: Case-Insensitive Palindrome Checker
- * (Ignoring Spaces & Special Characters)
+ * Use Case 11: Service-Based Palindrome Checker
  *
  * Description:
- * This class validates a palindrome by:
- * - Removing non-alphanumeric characters
- * - Converting text to lowercase
- * - Comparing characters from both ends
+ * This class validates a palindrome using a
+ * separate service layer.
  *
- * This enables real-world palindrome validation.
- *
- * Example:
- * "A man a plan a canal Panama" → Palindrome
+ * The palindrome logic is encapsulated inside
+ * PalindromeService to demonstrate:
+ * - Separation of Concerns
+ * - Code Reusability
+ * - Clean Architecture
  *
  * @author Anish
- * @version 10.0
+ * @version 11.0
  */
 
-public class UseCase10PalindromeCheckerApp{
+public class UseCase11PalindromeCheckerApp{
     public static void main(String[] args){
-        String input="A man a plan a canal Panama";
+
+        String input="racecar";
 
         System.out.println("Input : "+input);
 
-        String normalized=input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        PalindromeService service=new PalindromeService();
 
-        boolean isPalindrome=true;
-
-        for(int i=0; i<normalized.length()/2; i++){
-            if(normalized.charAt(i)!=normalized.charAt(normalized.length()-1-i)){
-                isPalindrome=false;
-                break;
-            }
-        }
+        boolean isPalindrome=service.checkPalindrome(input);
 
         System.out.println("Is Palindrome? : "+isPalindrome);
+    }
+}
+
+class PalindromeService{
+    public boolean checkPalindrome(String input){
+        int start=0;
+        int end=input.length()-1;
+
+        while(start<end){
+            if(input.charAt(start)!=input.charAt(end)){
+                return false;
+            }
+
+            start++;
+            end--;
+        }
+
+        return true;
     }
 }
