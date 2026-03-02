@@ -1,52 +1,46 @@
-import java.util.LinkedList;
-
 /**
  * =============================================================
- * MAIN CLASS - PalindromeCheckerApp_Usecase8
+ * MAIN CLASS - PalindromeCheckerApp_Usecase9
  * =============================================================
  *
- * Use Case 8: Linked List Based Palindrome Checker
+ * Use Case 9: Recursive Palindrome Checker
  *
  * Description:
- * This class validates whether a string is a palindrome
- * using a LinkedList.
+ * This class validates a palindrome using recursion.
  *
- * Characters are added to the list and then compared
- * by removing elements from both ends:
- * - removeFirst()
- * - removeLast()
+ * Characters are compared from the outer positions
+ * moving inward using recursive calls.
  *
- * This enables symmetric comparison similar to a Deque.
+ * The recursion stops when:
+ * - All characters are matched, OR
+ * - A mismatch is found.
+ *
+ * This demonstrates divide-and-conquer logic.
  *
  * @author Anish
- * @version 8.0
+ * @version 9.0
  */
 
-public class UseCase8PalindromeCheckerApp{
+public class UseCase9PalindromeCheckerApp{
     public static void main(String[] args){
-        String input="level";
+        String input="madam";
 
         System.out.println("Input : "+input);
 
-        LinkedList<Character> list=new LinkedList<>();
-
-        for(char c : input.toCharArray()){
-            list.add(c);
-        }
-
-        boolean isPalindrome=true;
-
-        while(list.size()>1){
-
-            char first=list.removeFirst();
-            char last=list.removeLast();
-
-            if(first!=last){
-                isPalindrome=false;
-                break;
-            }
-        }
+        boolean isPalindrome=check(input,0,input.length()-1);
 
         System.out.println("Is Palindrome? : "+isPalindrome);
+    }
+
+    private static boolean check(String s, int start, int end){
+        if(start>=end){
+            return true;
+        }
+
+        if(s.charAt(start)!=s.charAt(end)){
+            return false;
+        }
+
+        return check(s,start+1,end-1);
     }
 }
