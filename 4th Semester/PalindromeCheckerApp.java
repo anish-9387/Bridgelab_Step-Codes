@@ -1,48 +1,55 @@
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
  * =============================================================
- * MAIN CLASS - PalindromeCheckerApp_Usecase5
+ * MAIN CLASS - PalindromeCheckerApp_Usecase6
  * =============================================================
  *
- * Use Case 5: Stack Based Palindrome Checker
+ * Use Case 6: Queue + Stack Fairness Check
  *
  * Description:
- * This class validates a palindrome using a Stack
- * data structure which follows the LIFO principle.
+ * This class demonstrates palindrome validation using
+ * two different data structures:
  *
- * At this stage, the application:
- * - Pushes characters into a stack
- * - Pops them in reverse order
- * - Compares with original sequence
- * - Displays the result
+ * - Queue (FIFO - First In First Out)
+ * - Stack (LIFO - Last In First Out)
  *
- * This maps stack behavior to reversal logic.
+ * Characters are inserted into both structures and then
+ * compared by removing from the front of the queue and
+ * the top of the stack.
+ *
+ * If all characters match, the input string is confirmed
+ * as a palindrome.
  *
  * @author Anish
- * @version 5.0
+ * @version 6.0
  */
 
-public class UseCase5PalindromeCheckerApp{
+public class UseCase6PalindromeCheckerApp{
     public static void main(String[] args){
-        String input="noon";
+        String input="civic";
 
-        Stack<Character> stack=new Stack<>();
+        Queue<Character> queue=new LinkedList<>();
+
+        Stack<Character> stack = new Stack<>();
 
         for(char c : input.toCharArray()){
+            queue.add(c);
             stack.push(c);
         }
 
         boolean isPalindrome=true;
 
-        for(char c : input.toCharArray()){
-            if(c!=stack.pop()){
+        while(!queue.isEmpty()){
+            if(!queue.remove().equals(stack.pop())){
                 isPalindrome=false;
                 break;
             }
         }
 
         System.out.println("Input : "+input);
-        System.out.println("Is Palindrome? : " + isPalindrome);
+        System.out.println("Is Palindrome? : "+isPalindrome);
     }
 }
