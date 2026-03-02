@@ -1,46 +1,43 @@
 /**
  * =============================================================
- * MAIN CLASS - PalindromeCheckerApp_Usecase9
+ * MAIN CLASS - PalindromeCheckerApp_Usecase10
  * =============================================================
  *
- * Use Case 9: Recursive Palindrome Checker
+ * Use Case 10: Case-Insensitive Palindrome Checker
+ * (Ignoring Spaces & Special Characters)
  *
  * Description:
- * This class validates a palindrome using recursion.
+ * This class validates a palindrome by:
+ * - Removing non-alphanumeric characters
+ * - Converting text to lowercase
+ * - Comparing characters from both ends
  *
- * Characters are compared from the outer positions
- * moving inward using recursive calls.
+ * This enables real-world palindrome validation.
  *
- * The recursion stops when:
- * - All characters are matched, OR
- * - A mismatch is found.
- *
- * This demonstrates divide-and-conquer logic.
+ * Example:
+ * "A man a plan a canal Panama" → Palindrome
  *
  * @author Anish
- * @version 9.0
+ * @version 10.0
  */
 
-public class UseCase9PalindromeCheckerApp{
+public class UseCase10PalindromeCheckerApp{
     public static void main(String[] args){
-        String input="madam";
+        String input="A man a plan a canal Panama";
 
         System.out.println("Input : "+input);
 
-        boolean isPalindrome=check(input,0,input.length()-1);
+        String normalized=input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
+        boolean isPalindrome=true;
+
+        for(int i=0; i<normalized.length()/2; i++){
+            if(normalized.charAt(i)!=normalized.charAt(normalized.length()-1-i)){
+                isPalindrome=false;
+                break;
+            }
+        }
 
         System.out.println("Is Palindrome? : "+isPalindrome);
-    }
-
-    private static boolean check(String s, int start, int end){
-        if(start>=end){
-            return true;
-        }
-
-        if(s.charAt(start)!=s.charAt(end)){
-            return false;
-        }
-
-        return check(s,start+1,end-1);
     }
 }
