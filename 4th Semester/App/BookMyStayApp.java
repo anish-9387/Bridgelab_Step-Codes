@@ -1,25 +1,18 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * ===============================================================
  * ABSTRACT CLASS - Room
  * ===============================================================
  *
- * Use Case 2: Basic Room Types & Static Availability
+ * Use Case 3: Centralized Room Inventory Management
  *
- * Description:
- * This abstract class represents a generic hotel room.
- *
- * It models attributes that are intrinsic to a room type
- * and remain constant regardless of availability.
- *
- * Inventory-related concerns are intentionally excluded.
- *
- * @version 2.1
+ * @version 3.1
  */
 abstract class Room{
     protected int numberOfBeds;
-
     protected int squareFeet;
-
     protected double pricePerNight;
 
     public Room(int numberOfBeds, int squareFeet, double pricePerNight){
@@ -39,10 +32,6 @@ abstract class Room{
  * ===============================================================
  * CLASS - SingleRoom
  * ===============================================================
- *
- * Represents a single room in the hotel.
- *
- * @version 2.1
  */
 class SingleRoom extends Room{
     public SingleRoom(){
@@ -54,10 +43,6 @@ class SingleRoom extends Room{
  * ===============================================================
  * CLASS - DoubleRoom
  * ===============================================================
- *
- * Represents a double room in the hotel.
- *
- * @version 2.1
  */
 class DoubleRoom extends Room{
     public DoubleRoom(){
@@ -69,31 +54,51 @@ class DoubleRoom extends Room{
  * ===============================================================
  * CLASS - SuiteRoom
  * ===============================================================
- *
- * Represents a suite room in the hotel.
- *
- * @version 2.1
  */
-class SuiteRoom extends Room {
+class SuiteRoom extends Room{
     public SuiteRoom(){
         super(3, 750, 5000.0);
     }
 }
 
 /**
+ * ===============================================================
+ * CLASS - RoomInventory
+ * ===============================================================
  *
- * MAIN CLASS - UseCase2RoomInitialization
+ * Acts as centralized inventory using HashMap
  *
- * Use Case 2: Basic Room Types & Static Availability
+ * @version 3.1
+ */
+class RoomInventory{
+    private Map<String, Integer> roomAvailability;
+
+    public RoomInventory(){
+        roomAvailability=new HashMap<>();
+        initializeInventory();
+    }
+
+    private void initializeInventory(){
+        roomAvailability.put("SingleRoom", 5);
+        roomAvailability.put("DoubleRoom", 3);
+        roomAvailability.put("SuiteRoom", 2);
+    }
+
+    public Map<String, Integer> getRoomAvailability(){
+        return roomAvailability;
+    }
+
+    public void updateAvailability(String roomType, int count){
+        roomAvailability.put(roomType, count);
+    }
+}
+
+/**
+ * ===============================================================
+ * MAIN CLASS - UseCase3InventorySetup
+ * ===============================================================
  *
- * Description:
- * This class demonstrates room initialization
- * using domain models before introducing
- * centralized inventory management.
- * Availability is represented using
- * simple variables to highlight limitations.
- *
- * @version 2.1
+ * @version 3.1
  */
 public class BookMyStayApp{
     public static void main(String[] args){
@@ -101,27 +106,30 @@ public class BookMyStayApp{
         Room doubleRoom=new DoubleRoom();
         Room suiteRoom=new SuiteRoom();
 
-        int singleRoomAvailable=5;
-        int doubleRoomAvailable=3;
-        int suiteRoomAvailable=2;
+        RoomInventory inventory=new RoomInventory();
 
-        System.out.println("===== ROOM DETAILS =====\n");
+        System.out.println("===== CENTRALIZED ROOM INVENTORY =====\n");
 
         System.out.println("Single Room:");
         singleRoom.displayRoomDetails();
-        System.out.println("Available: "+singleRoomAvailable);
+        System.out.println("Available: "+inventory.getRoomAvailability().get("SingleRoom"));
         System.out.println();
 
         System.out.println("Double Room:");
         doubleRoom.displayRoomDetails();
-        System.out.println("Available: "+doubleRoomAvailable);
+        System.out.println("Available: "+inventory.getRoomAvailability().get("DoubleRoom"));
         System.out.println();
 
         System.out.println("Suite Room:");
         suiteRoom.displayRoomDetails();
-        System.out.println("Available: "+suiteRoomAvailable);
+        System.out.println("Available: "+inventory.getRoomAvailability().get("SuiteRoom"));
         System.out.println();
 
-        System.out.println("Application terminated.");
+        System.out.println("Updating SingleRoom availability...\n");
+        inventory.updateAvailability("SingleRoom", 4);
+
+        System.out.println("Updated Availability: "+inventory.getRoomAvailability().get("SingleRoom"));
+
+        System.out.println("\nApplication terminated.");
     }
 }
