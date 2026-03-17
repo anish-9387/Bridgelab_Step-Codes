@@ -1,113 +1,118 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
- * MAIN CLASS - UseCase4RoomSearch
- * Use Case 4: Room Search & Availability Check
+ * ===============================================================
+ * CLASS - Reservation
+ * ===============================================================
+ *
+ * Use Case 5: Booking Request (FIFO)
+ *
+ * Description:
+ * This class represents a booking request
+ * made by a guest.
+ *
+ * At this stage, a reservation only captures
+ * intent, not confirmation or room allocation.
+ *
+ * @version 5.0
+ */
+class Reservation{
+    private String guestName;
+
+    private String roomType;
+
+    public Reservation(String guestName, String roomType){
+        this.guestName=guestName;
+        this.roomType=roomType;
+    }
+
+    public String getGuestName(){
+        return guestName;
+    }
+
+    public String getRoomType(){
+        return roomType;
+    }
+}
+
+/**
+ * ===============================================================
+ * CLASS - BookingRequestQueue
+ * ===============================================================
+ *
+ * Use Case 5: Booking Request (FIFO)
+ *
+ * Description:
+ * This class manages booking requests
+ * using a queue to ensure fair allocation.
+ *
+ * Requests are processed strictly
+ * in the order they are received.
+ *
+ * @version 5.0
+ */
+class BookingRequestQueue{
+    private Queue<Reservation> requestQueue;
+
+    public BookingRequestQueue(){
+        requestQueue=new LinkedList<>();
+    }
+
+    public void addRequest(Reservation reservation){
+        requestQueue.offer(reservation);
+    }
+
+    public Reservation getNextRequest(){
+        return requestQueue.poll();
+    }
+
+    public boolean hasPendingRequests(){
+        return !requestQueue.isEmpty();
+    }
+}
+
+/**
+ * ===============================================================
+ * MAIN CLASS - UseCase5BookingRequestQueue
+ * ===============================================================
+ *
+ * Use Case 5: Booking Request (FIFO)
+ *
+ * Description:
+ * This class demonstrates how booking
+ * requests are accepted and queued
+ * in a fair and predictable order.
+ *
+ * No room allocation or inventory
+ * update is performed here.
+ *
+ * @version 5.0
  */
 public class BookMyStayApp{
     public static void main(String[] args){
-        Room singleRoom=new Room("Single", 1, 250, 1500.0);
-        Room doubleRoom=new Room("Double", 2, 400, 2500.0);
-        Room suiteRoom=new Room("Suite", 3, 750, 5000.0);
+        System.out.println("===== BOOKING REQUEST QUEUE =====\n");
 
-        RoomInventory inventory=new RoomInventory();
+        BookingRequestQueue bookingQueue=new BookingRequestQueue();
 
-        RoomSearchService service=new RoomSearchService();
+        Reservation r1=new Reservation("Abhi", "Single");
+        Reservation r2=new Reservation("Subha", "Double");
+        Reservation r3=new Reservation("Vanmathi", "Suite");
 
-        service.searchAvailableRooms(
-                inventory,
-                singleRoom,
-                doubleRoom,
-                suiteRoom
-        );
-    }
-}
+        bookingQueue.addRequest(r1);
+        bookingQueue.addRequest(r2);
+        bookingQueue.addRequest(r3);
 
-/**
- * Room class (data model)
- */
-class Room{
-    private String type;
-    private int beds;
-    private int size;
-    private double price;
+        System.out.println("Processing booking requests (FIFO):\n");
 
-    public Room(String type, int beds, int size, double price){
-        this.type=type;
-        this.beds=beds;
-        this.size=size;
-        this.price=price;
-    }
+        while(bookingQueue.hasPendingRequests()){
+            Reservation r=bookingQueue.getNextRequest();
 
-    public int getBeds(){
-        return beds;
-    }
-
-    public int getSize(){
-        return size;
-    }
-
-    public double getPrice(){
-        return price;
-    }
-}
-
-/**
- * Inventory class (holds availability)
- */
-class RoomInventory{
-    private Map<String, Integer> availability;
-
-    public RoomInventory(){
-        availability=new HashMap<>();
-        availability.put("Single", 5);
-        availability.put("Double", 3);
-        availability.put("Suite", 2);
-    }
-
-    public Map<String, Integer> getRoomAvailability(){
-        return availability;
-    }
-}
-
-/**
- * Service class (search logic)
- */
-class RoomSearchService{
-    public void searchAvailableRooms(
-            RoomInventory inventory,
-            Room singleRoom,
-            Room doubleRoom,
-            Room suiteRoom){
-        Map<String, Integer> availability=inventory.getRoomAvailability();
-
-        System.out.println("Room Search\n");
-
-        if(availability.get("Single")>0){
-            System.out.println("Single Room:");
-            System.out.println("Beds: "+singleRoom.getBeds());
-            System.out.println("Size: "+singleRoom.getSize()+" sqft");
-            System.out.println("Price per night: "+singleRoom.getPrice());
-            System.out.println("Available: "+availability.get("Single"));
-            System.out.println();
+            System.out.println("Guest: "+r.getGuestName());
+            System.out.println("Requested Room: "+r.getRoomType());
+            System.out.println("-----------------------------");
         }
-
-        if(availability.get("Double")>0){
-            System.out.println("Double Room:");
-            System.out.println("Beds: "+doubleRoom.getBeds());
-            System.out.println("Size: "+doubleRoom.getSize()+" sqft");
-            System.out.println("Price per night: "+doubleRoom.getPrice());
-            System.out.println("Available: "+availability.get("Double"));
-            System.out.println();
-        }
-
-        if(availability.get("Suite")>0){
-            System.out.println("Suite Room:");
-            System.out.println("Beds: "+suiteRoom.getBeds());
-            System.out.println("Size: "+suiteRoom.getSize()+" sqft");
-            System.out.println("Price per night: "+suiteRoom.getPrice());
-            System.out.println("Available: "+availability.get("Suite"));
-        }
+        System.out.println("All requests processed.");
+        System.out.println("Application terminated.");
     }
 }
