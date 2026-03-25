@@ -82,7 +82,7 @@ class AddOnServiceManager{
  * Demonstrates Add-On Service Selection
  *
  */
-public class UseCase7AddOnServiceSelection{
+public class BookMyStayApp{
     public static void main(String[] args){
         String reservationId="RES123";
 
