@@ -1,58 +1,36 @@
 import java.util.*;
 
-class CargoSafetyException extends RuntimeException{
-    public CargoSafetyException(String message){
-        super(message);
-    }
-}
-
-class GoodsBogie{
-    String shape;
-    String cargo;
-
-    public GoodsBogie(String shape){
-        this.shape=shape;
-    }
-
-    public void assignCargo(String cargoType){
-        try{
-            if(shape.equalsIgnoreCase("Rectangular") && cargoType.equalsIgnoreCase("Petroleum")){
-                throw new CargoSafetyException("Unsafe: Cannot assign Petroleum to Rectangular bogie");
-            }
-
-            this.cargo=cargoType;
-            System.out.println("Cargo assigned successfully: "+cargoType);
-
-        }
-        catch(CargoSafetyException e){
-            System.out.println("Error: "+e.getMessage());
-
-        }
-        finally{
-            System.out.println("Cargo assignment attempt completed.\n");
-        }
-    }
-
-    public String getCargo(){
-        return cargo;
-    }
-
-    public String getShape(){
-        return shape;
-    }
-}
-
 public class TrainConsistentManagementApp{
+    public static void bubbleSort(int[] arr){
+        int n=arr.length;
+
+        for(int i=0; i<n-1; i++){
+            for(int j=0; j<n-i-1; j++){
+                if(arr[j]>arr[j+1]){
+                    int temp=arr[j];
+                    arr[j]=arr[j+1];
+                    arr[j+1]=temp;
+                }
+            }
+        }
+    }
+
+    public static void printArray(int[] arr){
+        for(int val : arr){
+            System.out.print(val+" ");
+        }
+        System.out.println();
+    }
+
     public static void main(String[] args){
-        GoodsBogie b1=new GoodsBogie("Cylindrical");
-        GoodsBogie b2=new GoodsBogie("Rectangular");
+        int[] capacities={72, 56, 24, 70, 60};
 
-        b1.assignCargo("Petroleum");
+        System.out.println("Before Sorting:");
+        printArray(capacities);
 
-        b2.assignCargo("Petroleum");
+        bubbleSort(capacities);
 
-        b2.assignCargo("Grains");
-
-        System.out.println("Program continues safely...");
+        System.out.println("After Sorting:");
+        printArray(capacities);
     }
 }
