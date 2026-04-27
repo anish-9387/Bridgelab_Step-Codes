@@ -1,18 +1,29 @@
 import java.util.*;
 
 public class TrainConsistentManagementApp{
-    public static void sortBogieNames(String[] bogieNames){
-        Arrays.sort(bogieNames);    }
+    public static boolean searchBogie(String[] bogieIds, String key){
+        for(String id : bogieIds){
+            if(id.equals(key)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static void main(String[] args){
-        String[] bogies={"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
+        String[] bogies={"BG101", "BG205", "BG309", "BG412", "BG550"};
 
-        System.out.println("Before Sorting:");
-        System.out.println(Arrays.toString(bogies));
+        String searchKey="BG309";
 
-        sortBogieNames(bogies);
+        System.out.println("Searching for: "+searchKey);
 
-        System.out.println("After Sorting:");
-        System.out.println(Arrays.toString(bogies));
+        boolean found=searchBogie(bogies, searchKey);
+
+        if(found){
+            System.out.println("Bogie found!");
+        }
+        else{
+            System.out.println("Bogie not found.");
+        }
     }
 }
